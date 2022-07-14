@@ -1,13 +1,44 @@
 <template>
-  <div class="home">
-    <router-link  to='/table1' > table1 </router-link><br>
-    <router-link  to='/table2' > table2 </router-link>
+  <div class="table1">
+    <el-table
+      ref="multipleTable"
+      :data="tableData"
+      tooltip-effect="dark"
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+      @select="handleSelect"
+      :cell-style="cellStyle"
+      :row-style="rowStyle"
+    >
+      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column label="日期" width="120">
+        <template slot-scope="scope">{{ scope.row.date }}</template>
+      </el-table-column>
+      <el-table-column label="姓名" width="120">
+        <template slot-scope="scope">
+          <div v-if="scope.row.back" style="width: 100%;height: 100%;margin: 0;padding: 0;background-color: #ffff00;">{{ scope.row.name }}
+            </div>
+            <div v-else>{{ scope.row.name }}
+            </div>
+          </template>
+      </el-table-column>
+      <el-table-column prop="sex" label="性别"> </el-table-column>
+      <el-table-column prop="address" label="地址" show-overflow-tooltip>
+      </el-table-column>
+    </el-table>
+    <div style="margin-top: 20px">
+      <el-button @click="toggleSelection([tableData[1], tableData[2]])"
+        >切换第二、第三行的选中状态</el-button
+      >
+      <el-button @click="toggleSelection()">取消选择</el-button>
+      <el-button @click="highLightData">高亮重复项</el-button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Home',
+  name: 'Table1',
   components: {},
   data () {
     return {
