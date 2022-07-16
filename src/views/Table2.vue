@@ -7,7 +7,7 @@
     <el-table-draggable>
       <el-table
         row-key="id"
-        ref="multipleTable"
+        ref="table2"
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
@@ -87,23 +87,16 @@ export default {
   },
   methods: {
     moveUp () {
-      console.log(this.multipleSelection)
-    },
-    moveDown () {
-      console.log(this.multipleSelection)
-    },
-
-    upMoveClick () {
-      if (this.multipleSelection2.length === 0) {
-        this.CbfMessage({
+      if (this.multipleSelection.length === 0) {
+        this.$message({
           message: '请至少选择一条数据进行操作。',
           type: 'warning'
         })
         return false
       }
 
-      if (this.tableData2.length === this.multipleSelection2.length) {
-        this.CbfMessage({
+      if (this.tableData.length === this.multipleSelection.length) {
+        this.$message({
           message: '不能选择全部数据上移。',
           type: 'warning'
         })
@@ -112,8 +105,8 @@ export default {
 
       // confirm slotIndex
       let slotIndex = -1
-      this.tableData2.forEach((item, index) => {
-        this.multipleSelection2.forEach((v, k) => {
+      this.tableData.forEach((item, index) => {
+        this.multipleSelection.forEach((v, k) => {
           if (item.id === v.id) {
             if (slotIndex === -1) {
               slotIndex = index
@@ -127,40 +120,41 @@ export default {
       })
 
       // delete selectdata
-      this.multipleSelection2.forEach((item, index) => {
-        this.tableData2.forEach((v, k) => {
+      this.multipleSelection.forEach((item, index) => {
+        this.tableData.forEach((v, k) => {
           if (item.id === v.id) {
-            this.tableData2.splice(k, 1)
+            this.tableData.splice(k, 1)
           }
         })
       })
+
       if (slotIndex > 0) {
         slotIndex = slotIndex - 1
       } else {
         slotIndex = 0
       }
-      const selectionTableData = this.multipleSelection2
-      this.tableData2.splice(slotIndex, 0, this.multipleSelection2)
-      this.tableData2 = this.tableData2.flat()
+      this.tableData.splice(slotIndex, 0, this.multipleSelection)
+      this.tableData = this.tableData.flat()
 
+      const selectionTableData = this.multipleSelection
       setTimeout(async () => {
         await this.$nextTick()
         selectionTableData.forEach(row => {
           this.$refs.table2.toggleRowSelection(row)
         })
-      }, 200)
+      }, 10)
     },
-    downMoveClick () {
-      if (this.multipleSelection2.length === 0) {
-        this.CbfMessage({
+    moveDown () {
+      if (this.multipleSelection.length === 0) {
+        this.$message({
           message: '请至少选择一条数据进行操作。',
           type: 'warning'
         })
         return false
       }
 
-      if (this.tableData2.length === this.multipleSelection2.length) {
-        this.CbfMessage({
+      if (this.tableData.length === this.multipleSelection.length) {
+        this.$message({
           message: '不能选择全部数据下移。',
           type: 'warning'
         })
@@ -169,9 +163,9 @@ export default {
 
       // confirm slotIndex
       let slotIndex = -1
-      this.tableData2.forEach((item, index) => {
-        if (this.multipleSelection2.length > 1) {
-          this.multipleSelection2.forEach((v, k) => {
+      this.tableData.forEach((item, index) => {
+        if (this.multipleSelection.length > 1) {
+          this.multipleSelection.forEach((v, k) => {
             if (item.id === v.id) {
               if (slotIndex === -1) {
                 slotIndex = index
@@ -183,46 +177,38 @@ export default {
             }
           })
         } else {
-          this.multipleSelection2.forEach((v, k) => {
+          this.multipleSelection.forEach((v, k) => {
             if (item.id === v.id) {
               slotIndex = index + 1
-              // if (slotIndex === -1) {
-              //   slotIndex = index;
-              // } else {
-              //   if (slotIndex < index) {
-              //     slotIndex = index;
-              //   }
-              // }
             }
           })
         }
       })
-      console.log('---down move lotIndex ---')
-      console.log(slotIndex)
 
-      // delete selectdata
-      this.multipleSelection2.forEach((item, index) => {
-        this.tableData2.forEach((v, k) => {
+      // delete selectedata
+      this.multipleSelection.forEach((item, index) => {
+        this.tableData.forEach((v, k) => {
           if (item.id === v.id) {
-            this.tableData2.splice(k, 1)
+            this.tableData.splice(k, 1)
           }
         })
       })
+
       if (slotIndex > 0) {
-        slotIndex = slotIndex
+        // slotIndex = slotIndex
       } else {
         slotIndex = 1
       }
-      const selectionTableData = this.multipleSelection2
-      this.tableData2.splice(slotIndex, 0, this.multipleSelection2)
-      this.tableData2 = this.tableData2.flat()
+      this.tableData.splice(slotIndex, 0, this.multipleSelection)
+      this.tableData = this.tableData.flat()
 
+      const selectionTableData = this.multipleSelection
       setTimeout(async () => {
         await this.$nextTick()
         selectionTableData.forEach(row => {
           this.$refs.table2.toggleRowSelection(row)
         })
-      }, 200)
+      }, 10)
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -232,8 +218,4 @@ export default {
 }
 </script>
 <style>
-.greenClass {
-  /* background: 'green'; */
-  color: blue !important;
-}
 </style>
