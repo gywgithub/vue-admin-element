@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <router-link  to='/table1' > table1 </router-link><br>
-    <router-link  to='/table2' > table2 </router-link>
+    <router-link  to='/table1' > table1 高亮重复项</router-link><br>
+    <router-link  to='/table2' > table2 表格行拖动，上下移</router-link>
   </div>
 </template>
 
