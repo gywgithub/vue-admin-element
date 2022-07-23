@@ -24,6 +24,11 @@ const routes = [
     path: '/table2',
     name: 'Table2',
     component: () => import('../views/Table2.vue')
+  },
+  {
+    path: '/table3',
+    name: 'Table3',
+    component: () => import('../views/Table3.vue')
   }
 ]
 
