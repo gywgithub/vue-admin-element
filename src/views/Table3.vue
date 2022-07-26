@@ -165,5 +165,4 @@ export default {
 .cell-control-type .cell {
   padding: 0 0 !important;
 }
-
 </style>

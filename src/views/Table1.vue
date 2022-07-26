@@ -4,11 +4,10 @@
       ref="multipleTable"
       :data="tableData"
       tooltip-effect="dark"
-      style="width: 100%"
       @selection-change="handleSelectionChange"
-      @select="handleSelect"
       :cell-style="cellStyle"
       :row-style="rowStyle"
+      style="width: 1000px"
     >
       <el-table-column type="selection" width="55"> </el-table-column>
       <el-table-column label="日期" width="120">
@@ -16,21 +15,30 @@
       </el-table-column>
       <el-table-column label="姓名" width="120">
         <template slot-scope="scope">
-          <div v-if="scope.row.back" style="width: 100%;height: 100%;margin: 0;padding: 0;background-color: #ffff00;">{{ scope.row.name }}
-            </div>
-            <div v-else>{{ scope.row.name }}
-            </div>
-          </template>
+          <div
+            v-if="scope.row.back"
+            style="
+              width: 100%;
+              height: 100%;
+              margin: 0;
+              padding: 0;
+              background-color: #ffff00;
+            "
+          >
+            {{ scope.row.name }}
+          </div>
+          <div v-else>{{ scope.row.name }}</div>
+        </template>
       </el-table-column>
-      <el-table-column prop="sex" label="性别"> </el-table-column>
-      <el-table-column prop="address" label="地址" show-overflow-tooltip>
+      <el-table-column prop="nickName" label="昵称" show-overflow-tooltip>
       </el-table-column>
     </el-table>
-    <div style="margin-top: 20px">
-      <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-        >切换第二、第三行的选中状态</el-button
-      >
-      <el-button @click="toggleSelection()">取消选择</el-button>
+
+    <div style="margin-top: 20px;display:flex;">
+      <el-checkbox-group v-model="checkList" style="margin-right: 20px;margin-top: 10px;">
+        <el-checkbox label="姓名"></el-checkbox>
+        <el-checkbox label="昵称"></el-checkbox>
+      </el-checkbox-group>
       <el-button @click="highLightData">高亮重复项</el-button>
     </div>
   </div>
@@ -42,66 +50,43 @@ export default {
   components: {},
   data () {
     return {
-      className: 'greenClass',
+      checkList: [],
       tableData: [
         {
           id: '1',
           date: '2016-05-03',
           name: '张三',
-          address: '上海市普陀区金沙江路 1518 弄',
-          sex: '男'
-
+          nickName: '李四'
         },
         {
           id: '2',
           date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          sex: '女'
+          name: '李四',
+          nickName: '曹操'
         },
         {
           id: '3',
           date: '2016-05-04',
           name: '张三',
-          address: '上海市普陀区金沙江路 1518 弄',
-          sex: '男'
+          nickName: '赵云'
         },
         {
           id: '4',
           date: '2016-05-01',
           name: '张三',
-          address: '上海市普陀区金沙江路 1518 弄',
-          sex: ''
+          nickName: '孟德'
         },
         {
           id: '5',
           date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-          sex: '人妖'
-        },
-        {
-          id: '6',
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        },
-        {
-          id: '7',
-          date: '2016-05-09',
-          name: '李四',
-          address: '北京市东城区'
+          name: '赵云',
+          nickName: '子龙'
         }
       ],
       multipleSelection: []
     }
   },
   methods: {
-    handleSelect (val, row) {
-      // console.log('handleSelect: ')
-      // console.log(val)
-      // console.log(row)
-    },
     highLightData () {
       console.log('multipleSelection: ', this.multipleSelection)
 
@@ -126,6 +111,8 @@ export default {
       })
       console.log(arrIndex)
       console.log('---')
+
+      // 获取
 
       // 获取重复项内容
       const arr = []
@@ -199,15 +186,6 @@ export default {
         }
       }
     },
-    toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.multipleTable.toggleRowSelection(row)
-        })
-      } else {
-        this.$refs.multipleTable.clearSelection()
-      }
-    },
     handleSelectionChange (val) {
       this.multipleSelection = val
       console.log('handleSelectionChange: ')
@@ -217,8 +195,7 @@ export default {
 }
 </script>
 <style>
-.greenClass {
-  /* background: 'green'; */
-  color: blue !important;
+.table1 {
+  padding: 10px;
 }
 </style>
